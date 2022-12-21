@@ -1,16 +1,40 @@
-# This is a sample Python script.
+import requests
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
 
 
-# Press the green button in the gutter to run the script.
+import urllib.request
+import logging
+from selenium import webdriver
+from bs4 import BeautifulSoup
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    """ main """
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    logger = logging.getLogger()
+
+    from selenium import webdriver
+
+    # driver = webdriver.Chrome("\\chromedriver.exe")
+
+    # url = 'https://www.ncaa.com/sports/volleyball-women/d1'
+    url = "https://www.ncaa.com/game/6079447"
+
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    driver.get(url)
+    page = driver.execute_script('return document.body.innerHTML')
+
+    # soup = BeautifulSoup(page, 'html.parser')
+
+    # homeBoxScores = soup.find_all("table")
+    boxscores = driver.find_elements(By.XPATH, '//*[@id="gamecenterAppContent"]/div/div[2]/div[1]/table')
+    for boxscore in boxscores:
+        print(boxscore.get_attribute('innerHTML'))
+
+
+    # homeBoxScores = soup.find("table", class_="boxscore-table_sets_home")
+    # print(homeBoxScores)
+
